@@ -3,4 +3,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="record">r e c o r d</string>
+    <string name="library">l i b r a r y</string>
+    <string name="default_file_name">My Recording</string>
+    <string name="toast_recording_finish">Recording saved to</string>
+    <string name="notification_recording">Recording...</string>
+
 </resources>

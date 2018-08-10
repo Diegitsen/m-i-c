@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
+    PagerAdapter pagerAdapter = new com.example.diego.mic.adapters.PagerAdapter(getSupportFragmentManager());
 
 
     @Override
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new com.example.diego.mic.adapters.PagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(pagerAdapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);

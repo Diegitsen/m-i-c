@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    private String[] titles = {String.valueOf(R.string.library), String.valueOf(R.string.record)};
+    private String[] titles = {"l i b r a r y","r e c o r d"};
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
@@ -26,10 +26,10 @@ public class PagerAdapter extends FragmentPagerAdapter {
         switch (position)
         {
             case 0:
-                fragment = new FileViewerFragment();
+                fragment = FileViewerFragment.newInstance(position);
                 break;
             case 1:
-                fragment = new RecordFragment();
+                fragment = RecordFragment.newInstance(position);
                 break;
         }
 

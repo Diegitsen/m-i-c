@@ -100,7 +100,7 @@ public class RecordFragment extends Fragment {
             //mRecordButton.setImageResource(R.drawable.ic_media_stop);
             //mPauseButton.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(),R.string.toast_recording_start,Toast.LENGTH_SHORT).show();
-            File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
+            File folder = new File(Environment.getExternalStorageDirectory() + "/MicRecorder");
             if (!folder.exists()) {
                 //folder /SoundRecorder doesn't exist, create the folder
                 folder.mkdir();
@@ -142,7 +142,7 @@ public class RecordFragment extends Fragment {
             mChronometer.stop();
             mChronometer.setBase(SystemClock.elapsedRealtime());
             timeWhenPaused = 0;
-            mRecordingPrompt.setText(getString(R.string.record_prompt));
+            //mRecordingPrompt.setText(getString(R.string.record_prompt));
 
             getActivity().stopService(intent);
             //allow the screen to turn off again once recording is finished

@@ -1,12 +1,19 @@
 package com.example.diego.mic.fragments;
 
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +23,7 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.diego.mic.MainActivity;
 import com.example.diego.mic.R;
 import com.example.diego.mic.RecordingService;
 
@@ -28,6 +36,9 @@ import java.io.File;
 public class RecordFragment extends Fragment {
 
     private static final String ARG_POSITION = "position";
+
+    private int STORAGE_PERMISSION_CODE = 1;
+
 
     private int position;
 
@@ -82,6 +93,18 @@ public class RecordFragment extends Fragment {
         mRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                {
+                    Toast.makeText(getActivity(), "You have already granted this permission!",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    requestStoragePermission();
+                }
+
                 onRecord(mStartRecording);
                 mStartRecording = !mStartRecording;
             }
@@ -152,4 +175,45 @@ public class RecordFragment extends Fragment {
 
     }
 
+    private void requestStoragePermission()
+    {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed because of this and that")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(getActivity(),
+                                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+        }
+        else
+        {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == STORAGE_PERMISSION_CODE)  {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getActivity(), "Permission GRANTED", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
+
+

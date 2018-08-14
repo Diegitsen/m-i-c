@@ -99,14 +99,16 @@ public class RecordFragment extends Fragment {
                 {
                     Toast.makeText(getActivity(), "You have already granted this permission!",
                             Toast.LENGTH_SHORT).show();
+
+                    onRecord(mStartRecording);
+                    mStartRecording = !mStartRecording;
                 }
                 else
                 {
                     requestStoragePermission();
                 }
 
-                onRecord(mStartRecording);
-                mStartRecording = !mStartRecording;
+
             }
         });
 
@@ -116,6 +118,7 @@ public class RecordFragment extends Fragment {
     private void onRecord(boolean start)
     {
         Intent intent = new Intent(getActivity(), RecordingService.class);
+        Toast.makeText(getActivity(),"you got it", Toast.LENGTH_SHORT).show();
 
 
         if (start) {
